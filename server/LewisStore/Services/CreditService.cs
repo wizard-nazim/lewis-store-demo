@@ -3,6 +3,7 @@ using LewisStore.Models;
 
 namespace LewisStore.Services;
 
+// Service to handle credit agreements and installment creation but it's also haram
 public class CreditService : ICreditService
 {
     private readonly LewisDbContext _db;

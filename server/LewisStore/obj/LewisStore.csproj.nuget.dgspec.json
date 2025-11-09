@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\DS1\\source\\repos\\LewisStore\\server\\LewisStore\\LewisStore.csproj": {}
+    "C:\\Users\\Administrator\\Source\\Repos\\lewis-store-demo\\server\\LewisStore\\LewisStore.csproj": {}
   },
   "projects": {
-    "C:\\Users\\DS1\\source\\repos\\LewisStore\\server\\LewisStore\\LewisStore.csproj": {
+    "C:\\Users\\Administrator\\Source\\Repos\\lewis-store-demo\\server\\LewisStore\\LewisStore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\DS1\\source\\repos\\LewisStore\\server\\LewisStore\\LewisStore.csproj",
+        "projectUniqueName": "C:\\Users\\Administrator\\Source\\Repos\\lewis-store-demo\\server\\LewisStore\\LewisStore.csproj",
         "projectName": "LewisStore",
-        "projectPath": "C:\\Users\\DS1\\source\\repos\\LewisStore\\server\\LewisStore\\LewisStore.csproj",
-        "packagesPath": "C:\\Users\\DS1\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\DS1\\source\\repos\\LewisStore\\server\\LewisStore\\obj\\",
+        "projectPath": "C:\\Users\\Administrator\\Source\\Repos\\lewis-store-demo\\server\\LewisStore\\LewisStore.csproj",
+        "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Administrator\\Source\\Repos\\lewis-store-demo\\server\\LewisStore\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\DS1\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -112,7 +112,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

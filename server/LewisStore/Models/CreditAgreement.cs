@@ -1,5 +1,6 @@
 ﻿namespace LewisStore.Models;
 
+// Haram Credit Agreement for financing orders
 public class CreditAgreement
 {
     public Guid Id { get; set; } = Guid.NewGuid();

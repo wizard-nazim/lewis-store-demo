@@ -11,13 +11,13 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // -----------------------------------------------------
-// 1️⃣ PostgreSQL Database
+//  PostgreSQL Database
 // -----------------------------------------------------
 builder.Services.AddDbContext<LewisDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // -----------------------------------------------------
-// 2️⃣ Dependency Injection for Services
+//  Dependency Injection for Services
 // -----------------------------------------------------
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IProductService, ProductService>();
@@ -29,7 +29,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
 // -----------------------------------------------------
-// 3️⃣ Swagger Config (JWT auth enabled)
+// Swagger Config (JWT auth enabled)
 // -----------------------------------------------------
 builder.Services.AddSwaggerGen(c =>
 {
@@ -47,7 +47,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 // -----------------------------------------------------
-// 4️⃣ JWT Authentication Setup
+// JWT Authentication Setup
 // -----------------------------------------------------
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 
@@ -69,7 +69,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 // -----------------------------------------------------
-// 5️⃣ CORS (Frontend at port 5173)
+// CORS (Frontend at port 5173)
 // -----------------------------------------------------
 builder.Services.AddCors(options =>
 {
@@ -85,7 +85,7 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // -----------------------------------------------------
-// 6️⃣ Apply migrations & seed initial data
+// Apply migrations & seed initial data
 // -----------------------------------------------------
 using (var scope = app.Services.CreateScope())
 {
@@ -96,7 +96,7 @@ using (var scope = app.Services.CreateScope())
 }
 
 // -----------------------------------------------------
-// 7️⃣ Middleware & Routing
+// Middleware & Routing
 // -----------------------------------------------------
 if (app.Environment.IsDevelopment())
 {
