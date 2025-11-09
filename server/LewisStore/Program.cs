@@ -1,127 +1,116 @@
-using System.Text;
+﻿using LewisStore.Data;
+using LewisStore.Middleware;
+using LewisStore.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using LewisStore.Data;
-using LewisStore.Services;
-using LewisStore.Middleware;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-var configuration = builder.Configuration;
 
-// -----------------------
-// Database
-// -----------------------
-builder.Services.AddDbContext<LewisDbContext>(opts =>
-    opts.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+// -----------------------------------------------------
+// 1️⃣ PostgreSQL Database
+// -----------------------------------------------------
+builder.Services.AddDbContext<LewisDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// -----------------------
-// Services
-// -----------------------
+// -----------------------------------------------------
+// 2️⃣ Dependency Injection for Services
+// -----------------------------------------------------
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
-builder.Services.AddScoped<IPaymentService, MockPaymentService>();
 builder.Services.AddScoped<ICreditService, CreditService>();
+builder.Services.AddScoped<IPaymentService, MockPaymentService>(); // this is your existing mock implementation
 
-// -----------------------
-// Controllers & Swagger
-// -----------------------
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
+// -----------------------------------------------------
+// 3️⃣ Swagger Config (JWT auth enabled)
+// -----------------------------------------------------
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
-    {
-        Title = "LewisStore API",
-        Version = "v1"
-    });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "LewisStore API", Version = "v1" });
 
-    // JWT Bearer auth for Swagger
-    c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
     {
+        Description = "JWT Authorization header using the Bearer scheme. Example: 'Bearer {token}'",
+        In = ParameterLocation.Header,
         Name = "Authorization",
-        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
-        Scheme = "Bearer",
-        BearerFormat = "JWT",
-        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
-        Description = "Enter 'Bearer' followed by your JWT token.\nExample: \"Bearer abcdef12345\""
+        Type = SecuritySchemeType.ApiKey
     });
 
-    c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
-    {
-        {
-            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
-            {
-                Reference = new Microsoft.OpenApi.Models.OpenApiReference
-                {
-                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            new string[] { }
-        }
-    });
+    c.OperationFilter<SecurityRequirementsOperationFilter>();
 });
 
-// -----------------------
-// JWT Authentication
-// -----------------------
-var jwtKey = configuration["Jwt:Key"] ?? throw new InvalidOperationException("Jwt:Key missing");
-var key = Encoding.UTF8.GetBytes(jwtKey);
+// -----------------------------------------------------
+// 4️⃣ JWT Authentication Setup
+// -----------------------------------------------------
+var jwtSettings = builder.Configuration.GetSection("Jwt");
 
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    options.RequireHttpsMetadata = false;
-    options.SaveToken = true;
-    options.TokenValidationParameters = new TokenValidationParameters
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
     {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(key),
-        ValidateIssuer = false,
-        ValidateAudience = false
-    };
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = jwtSettings["Issuer"],
+            ValidAudience = jwtSettings["Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(jwtSettings["Key"]!)
+            )
+        };
+    });
+
+// -----------------------------------------------------
+// 5️⃣ CORS (Frontend at port 5173)
+// -----------------------------------------------------
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
 });
 
 var app = builder.Build();
 
-// -----------------------
-// Migrate & Seed DB
-// -----------------------
+// -----------------------------------------------------
+// 6️⃣ Apply migrations & seed initial data
+// -----------------------------------------------------
 using (var scope = app.Services.CreateScope())
 {
-    var db = scope.ServiceProvider.GetRequiredService<LewisDbContext>();
-    db.Database.Migrate();
-    DataSeeder.Seed(db);
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<LewisDbContext>();
+    context.Database.Migrate();
+    DataSeeder.Seed(context, services);
 }
 
-// -----------------------
-// Middleware
-// -----------------------
-app.UseMiddleware<ErrorHandlerMiddleware>();
-
-// -----------------------
-// Swagger in Dev
-// -----------------------
+// -----------------------------------------------------
+// 7️⃣ Middleware & Routing
+// -----------------------------------------------------
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "LewisStore API V1");
-        c.RoutePrefix = string.Empty; // optional: swagger at root '/'
-    });
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowFrontend");
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
 app.Run();

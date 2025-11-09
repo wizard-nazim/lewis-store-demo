@@ -1,43 +1,35 @@
-﻿using BCrypt.Net;
-using LewisStore.Models;
+﻿using LewisStore.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Linq;
 
-namespace LewisStore.Data;
-
-public static class DataSeeder
+namespace LewisStore.Data
 {
-    public static void Seed(LewisDbContext db)
+    public static class DataSeeder
     {
-        if (!db.Users.Any())
+        public static void Seed(LewisDbContext context, IServiceProvider services)
         {
+            if (context.Users.Any()) return; // prevent reseeding
+
             var admin = new User
             {
-                Id = Guid.NewGuid(),
-                Name = "Admin",
                 Email = "admin@lewis.co.za",
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword("admin123"),
                 Role = "Admin",
-                Balance = 1000m
+                Balance = 1000
             };
-            var cust = new User
+
+            var customer = new User
             {
-                Id = Guid.NewGuid(),
-                Name = "Customer",
                 Email = "customer@lewis.co.za",
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword("cust1234"),
                 Role = "Customer",
-                Balance = 200m
+                Balance = 500
             };
-            db.Users.AddRange(admin, cust);
-        }
 
-        if (!db.Products.Any())
-        {
-            db.Products.AddRange(
-                new Product { Id = Guid.NewGuid(), Name = "Phone", SKU = "SP-001", UnitPrice = 249.99m, CostPrice = 150, StockQty = 10, IsActive = true },
-                new Product { Id = Guid.NewGuid(), Name = "Headphones", SKU = "SH-001", UnitPrice = 49.99m, CostPrice = 20, StockQty = 30, IsActive = true }
-            );
+            context.Users.AddRange(admin, customer);
+            context.SaveChanges();
         }
-
-        db.SaveChanges();
     }
 }
