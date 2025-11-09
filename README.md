@@ -1,52 +1,13 @@
-# lewis-store-demo
-
-
-| Section               | done?             | Extra needed                                |
-| --------------------- | ----------------  | ------------------------------------------- |
-| Auth                  | ✅               | validation, token expiry, duplicates        |
-| Products              | ✅               | update/delete, validations, stock rules     |
-| Orders                | ✅               | stock decrement, validation, error handling |
-| Payments              | ✅                | validation, failure handling, security      |
-| Admin                 | ✅                | validation, strict admin enforcement        |
-| DTOs / Business Logic | Partial            | enforce rules, validations                  |
-| Security / Logging    | ❌                | JWT, permissions, exception handling        |
-| Edge Cases            | ❌                | negative tests, concurrency, invalid input  |
-
----
-
-# Auth
-
-> Register, Login, JWT token generation ✅
-> 
-> Still needed: Input validation (email format, password strength), duplicate email handling, token expiry/refresh ❌
-
-# Products
-
-> Have: List products, Create product, Get product by ID ✅
-> 
-> Still needed: Update/Delete endpoints if required, input validation (price ≥ 0, stock ≥ 0), handle inactive products ❌
-
-# Orders
-> Have: Checkout, Get order by ID ✅
-> 
-> Still needed: Stock decrement logic, validation (items exist, quantity available), error handling for empty/invalid carts ❌
-
-# Payments
-> Have: Create session, Record payment, Simulate webhook ✅
-> 
-> Still needed: Validate order exists, handle payment failures/retries, match amount with order total, enforce auth ❌
-
-# Admin
-> Have: Top up balance, List users ✅
-> 
-> Still needed: Strict admin auth, validation (amount ≥ 0) ❌
-
-# DTOs / Business Logic
-> Have: Basic DTOs ✅
-> 
-> Still needed: Enforce business rules, full validation, error handling ❌
-
-# Security / Logging / Edge Cases
->Have: Basic JWT auth ✅
->
->Still needed: JWT expiry handling, invalid token handling, permission enforcement, exception logging, concurrency handling ❌
+| **Feature Area**                    | **Description**                                                                    | **Status**        |
+| ----------------------------------- | ---------------------------------------------------------------------------------- | ----------------- |
+| **User Authentication**             | JWT-based login and registration for customers and admins.                         | ✅ Completed       |
+| **User Management (Admin)**         | Admin can view and manage user accounts via `UserAdminController`.                 | ✅ Completed       |
+| **Product Management**              | CRUD operations on store products using `ProductsController` and `ProductService`. | ✅ Completed       |
+| **Order Management**                | Customers can create and view their orders. Admins can manage them.                | ✅ Completed       |
+| **Payments System**                 | Handles payment records and links payments to orders.                              | ✅ Completed       |
+| **Credit & Installment Management** | Implements credit agreements, installment tracking, and repayment logic.           | ✅ Completed       |
+| **Audit Logging**                   | Records user or system activities using the `AuditLog` model.                      | ✅ Completed       |
+| **Error Handling Middleware**       | Global middleware for unified exception handling.                                  | ✅ Completed       |
+| **Database Seeding**                | Automatically populates essential seed data at startup.                            | ✅ Completed       |
+| **Security & CORS Policy**          | CORS configured for frontend (port 5173). JWT and password hashing in place.       | ✅ Completed       |
+| **Delivery System**                 | Out of scope per BRD (excluded intentionally).                                     | 🚫 Not Applicable |
