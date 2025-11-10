@@ -82,6 +82,7 @@ builder.Services.AddCors(options =>
     });
 });
 
+
 var app = builder.Build();
 
 // -----------------------------------------------------
@@ -113,4 +114,21 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+Console.WriteLine("\n");
+Console.ForegroundColor = ConsoleColor.Green;
+CenterText("╔════════════════════════════════════════╗");
+CenterText("║       Lewis Store API is Live!         ║");
+CenterText("╚════════════════════════════════════════╝");
+Console.WriteLine("\n");
+Console.ResetColor();
+
 app.Run();
+
+// Methods down here! 
+static void CenterText(string text)
+{
+    int windowWidth = Console.WindowWidth;
+    int padding = Math.Max(0, (windowWidth - text.Length) / 2);
+    Console.WriteLine(new string(' ', padding) + text);
+
+}

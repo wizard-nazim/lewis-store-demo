@@ -19,6 +19,13 @@ public class MockPaymentService : IPaymentService
         return Task.FromResult(sessionId.ToString());
     }
 
+    //very simple simulation of webhook handling below
+    //this would be called when the payment provider notifies us of a successful payment
+    // we simulate this by calling this method directly in our test webhook controller
+    //this is important: in a real implementation, you would verify the webhook signature and data
+    // here we just trust the session id, and update the user's balance accordingly
+
+
     // Simulate payment succeeded and call backend webhook handler (we will implement webhook controller that uses this)
     public Task<bool> SimulateWebhookPaymentSucceededAsync(Guid sessionId)
     {

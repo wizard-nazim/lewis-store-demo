@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\DS1\\Desktop\\server\\server\\LewisStore\\LewisStore.csproj": {}
+    "C:\\Users\\DS1\\Desktop\\Lewis\\server\\LewisStore\\LewisStore.csproj": {}
   },
   "projects": {
-    "C:\\Users\\DS1\\Desktop\\server\\server\\LewisStore\\LewisStore.csproj": {
+    "C:\\Users\\DS1\\Desktop\\Lewis\\server\\LewisStore\\LewisStore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\DS1\\Desktop\\server\\server\\LewisStore\\LewisStore.csproj",
+        "projectUniqueName": "C:\\Users\\DS1\\Desktop\\Lewis\\server\\LewisStore\\LewisStore.csproj",
         "projectName": "LewisStore",
-        "projectPath": "C:\\Users\\DS1\\Desktop\\server\\server\\LewisStore\\LewisStore.csproj",
+        "projectPath": "C:\\Users\\DS1\\Desktop\\Lewis\\server\\LewisStore\\LewisStore.csproj",
         "packagesPath": "C:\\Users\\DS1\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\DS1\\Desktop\\server\\server\\LewisStore\\obj\\",
+        "outputPath": "C:\\Users\\DS1\\Desktop\\Lewis\\server\\LewisStore\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

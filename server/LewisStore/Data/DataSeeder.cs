@@ -23,7 +23,7 @@ namespace LewisStore.Data
             var customer = new User
             {
                 Email = "customer@lewis.co.za",
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword("cust1234"),
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword("customer1234"),
                 Role = "Customer",
                 Balance = 500
             };

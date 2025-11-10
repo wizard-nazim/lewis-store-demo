@@ -65,3 +65,5 @@ public class OrderService : IOrderService
     public async Task<Order?> GetByIdAsync(Guid id) =>
         await _db.Orders.Include(o => o.Items).FirstOrDefaultAsync(o => o.Id == id);
 }
+
+//Please review this code for correctness and completeness
