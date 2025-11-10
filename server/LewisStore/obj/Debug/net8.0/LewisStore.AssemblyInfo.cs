@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LewisStore")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7dbe095938ccd661d21b9ebd0ceb0a85c6408ba9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d65acaa8e1608b66390ab4ebabd82e74c88a2555")]
 [assembly: System.Reflection.AssemblyProductAttribute("LewisStore")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LewisStore")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

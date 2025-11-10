@@ -482,3 +482,32 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# Build directories
+bin/
+obj/
+
+# Visual Studio / VS Code / Rider
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.vscode/
+.idea/
+
+# NuGet and packages
+*.nupkg
+packages/
+# If you restore packages automatically, you may ignore them
+!**/packages/build/
+
+# OS files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# Log and temporary files
+*.log
+*.tmp
